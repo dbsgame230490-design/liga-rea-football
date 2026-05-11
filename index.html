@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Football League Dashboard</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="league-info">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/en/e/e1/Serie_A_logo_%282019%29.svg"
+        alt="League Logo"
+        class="league-logo"
+      />
+
+      <div>
+        <h1>Serie A</h1>
+        <p>2025-26 Season</p>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- NAVIGATION -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="matches">Matches</button>
+    <button class="tab" data-tab="standings">Standings</button>
+    <button class="tab" data-tab="stats">Stats</button>
+    <button class="tab" data-tab="playoff">Playoff</button>
+  </nav>
+
+
+  <!-- CONTENT -->
+  <main class="container">
+
+    <!-- MATCHES -->
+    <section id="matches" class="content active">
+
+      <h2>Sat, Mar 14</h2>
+
+      <div class="match-grid">
+
+        <div class="match-card">
+          <div class="week">Week 29</div>
+
+          <div class="teams">
+            <div class="team-row winner">
+              <span>Torino</span>
+              <strong>4</strong>
+            </div>
+
+            <div class="team-row">
+              <span>Parma Calcio</span>
+              <strong>1</strong>
+            </div>
+          </div>
+
+          <div class="match-info">
+            <span>FT</span>
+            <small>Sat, Mar 14</small>
+          </div>
+        </div>
+
+
+        <div class="match-card">
+          <div class="week">Week 29</div>
+
+          <div class="teams">
+            <div class="team-row winner">
+              <span>Inter</span>
+              <strong>1</strong>
+            </div>
+
+            <div class="team-row">
+              <span>Atalanta</span>
+              <strong>1</strong>
+            </div>
+          </div>
+
+          <div class="match-info">
+            <span>FT</span>
+            <small>Sat, Mar 14</small>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- STANDINGS -->
+    <section id="standings" class="content">
+
+      <div class="table-card">
+
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              <th>PTS</th>
+              <th>MP</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>GD</th>
+              <th>Last 5</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Inter</td>
+              <td>85</td>
+              <td>36</td>
+              <td>27</td>
+              <td>4</td>
+              <td>5</td>
+              <td>85</td>
+              <td>31</td>
+              <td>54</td>
+              <td>
+                <div class="form">
+                  <span class="win">W</span>
+                  <span class="win">W</span>
+                  <span class="draw">D</span>
+                  <span class="win">W</span>
+                  <span class="win">W</span>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td>Napoli</td>
+              <td>70</td>
+              <td>35</td>
+              <td>21</td>
+              <td>7</td>
+              <td>7</td>
+              <td>52</td>
+              <td>33</td>
+              <td>19</td>
+              <td>
+                <div class="form">
+                  <span class="win">W</span>
+                  <span class="draw">D</span>
+                  <span class="lose">L</span>
+                  <span class="win">W</span>
+                  <span class="draw">D</span>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td>Juventus</td>
+              <td>68</td>
+              <td>36</td>
+              <td>19</td>
+              <td>11</td>
+              <td>6</td>
+              <td>59</td>
+              <td>30</td>
+              <td>29</td>
+              <td>
+                <div class="form">
+                  <span class="win">W</span>
+                  <span class="win">W</span>
+                  <span class="draw">D</span>
+                  <span class="draw">D</span>
+                  <span class="win">W</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </section>
+
+
+    <!-- STATS -->
+    <section id="stats" class="content">
+
+      <div class="stats-tabs">
+        <button class="stats-btn active">Goals</button>
+        <button class="stats-btn">Assists</button>
+        <button class="stats-btn">Yellow Cards</button>
+        <button class="stats-btn">Red Cards</button>
+      </div>
+
+
+      <div class="stats-card">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Team</th>
+              <th>Goals</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Lautaro Martinez</td>
+              <td>Inter</td>
+              <td>17</td>
+            </tr>
+
+            <tr>
+              <td>Marcus Thuram</td>
+              <td>Inter</td>
+              <td>13</td>
+            </tr>
+
+            <tr>
+              <td>Anastasios Douvikas</td>
+              <td>Como</td>
+              <td>12</td>
+            </tr>
+
+            <tr>
+              <td>Nico Paz</td>
+              <td>Como</td>
+              <td>12</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </section>
+
+
+    <!-- PLAYOFF -->
+    <section id="playoff" class="content">
+
+      <div class="playoff-wrapper">
+
+        <div class="round">
+          <h3>Quarter Final</h3>
+
+          <div class="bracket-card">
+            <span>Inter</span>
+            <strong>2</strong>
+          </div>
+
+          <div class="bracket-card loser">
+            <span>Roma</span>
+            <strong>1</strong>
+          </div>
+
+          <div class="bracket-card">
+            <span>Napoli</span>
+            <strong>3</strong>
+          </div>
+
+          <div class="bracket-card loser">
+            <span>Milan</span>
+            <strong>0</strong>
+          </div>
+        </div>
+
+
+        <div class="round">
+          <h3>Semi Final</h3>
+
+          <div class="bracket-card">
+            <span>Inter</span>
+            <strong>1</strong>
+          </div>
+
+          <div class="bracket-card loser">
+            <span>Napoli</span>
+            <strong>0</strong>
+          </div>
+        </div>
+
+
+        <div class="round">
+          <h3>Final</h3>
+
+          <div class="champion-card">
+            <h2>🏆 Champion</h2>
+            <h1>Inter</h1>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
