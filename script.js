@@ -230,7 +230,7 @@ async function loadStandings() {
 async function loadStatsGoals() {
 
   const body =
-    document.getElementById('statsBody');
+    document.getElementById('statsGoalsBody');
 
   const querySnapshot =
     await getDocs(collection(db, "statsGoals"));
