@@ -384,5 +384,5 @@ async function loadPlayoff() {
 
 loadMatches();
 loadStandings();
-loadStatsGoals();
+loadStats();
 loadPlayoff();
