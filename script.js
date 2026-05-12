@@ -146,7 +146,7 @@ async function loadMatches() {
 
         <div class="match-info">
           <span>${match.status}</span>
-          <small>${match.date}</small>
+          <small>${match.matchesDate}</small>
         </div>
 
       </div>
@@ -343,7 +343,7 @@ async function loadPlayoff() {
     document.getElementById('playoffWrapper');
 
   const querySnapshot =
-    await getDocs(collection(db, "playoff"));
+    await getDocs(collection(db, "playOff"));
 
   wrapper.innerHTML = "";
 
@@ -351,14 +351,21 @@ async function loadPlayoff() {
 
     const item = doc.data();
 
+    const homeLoser = item.homeScore < item.awayScore ? 'loser' : '';
+    const awayLoser = item.awayScore < item.homeScore ? 'loser' : '';
+
     const card = `
       <div class="round">
 
         <h3>${item.round}</h3>
 
-        <div class="bracket-card ${item.loser ? 'loser' : ''}">
-          <span>${item.team}</span>
-          <strong>${item.score}</strong>
+        <div class="bracket-card ${homeLoser}">
+          <span>${item.homeTeam}</span>
+          <strong>${item.homeScore}</strong>
+        </div>
+        <div class="bracket-card ${awayLoser}">
+          <span>${item.awayTeam}</span>
+          <strong>${item.awayScore}</strong>
         </div>
 
       </div>
