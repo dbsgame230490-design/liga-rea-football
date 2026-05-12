@@ -121,6 +121,18 @@ async function loadMatches() {
     const winnerHome = match.homeScore > match.awayScore ? 'winner' : '';
     const winnerAway = match.awayScore > match.homeScore ? 'winner' : '';
 
+    
+    const formattedDate =
+      match.matchesDate
+        .toDate()
+        .toLocaleString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit'
+        });
+
     const card = `
       <div class="match-card">
 
@@ -144,7 +156,7 @@ async function loadMatches() {
 
         <div class="match-info">
           <span>${match.status}</span>
-          <small>${match.matchesDate}</small>
+          <small>${formattedDate}</small>
         </div>
 
       </div>
