@@ -227,13 +227,13 @@ async function loadStandings() {
 // LOAD STATS
 // ============================
 
-async function loadStats() {
+async function loadStatsGoals() {
 
   const body =
     document.getElementById('statsBody');
 
   const querySnapshot =
-    await getDocs(collection(db, "stats"));
+    await getDocs(collection(db, "statsGoals"));
 
   body.innerHTML = "";
 
@@ -300,5 +300,5 @@ async function loadPlayoff() {
 
 loadMatches();
 loadStandings();
-loadStats();
+loadStatsGoals();
 loadPlayoff();
