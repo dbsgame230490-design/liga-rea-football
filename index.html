@@ -41,7 +41,7 @@
     <!-- MATCHES -->
     <section id="matches" class="content active">
 
-      <h2>Sat, Mar 14</h2>
+      <!-- <h2>Sat, Mar 14</h2> -->
 
       <!-- <div class="match-grid">
 
@@ -196,10 +196,10 @@
     <section id="stats" class="content">
 
       <div class="stats-tabs">
-        <button class="stats-btn active">Goals</button>
-        <button class="stats-btn">Assists</button>
-        <button class="stats-btn">Yellow Cards</button>
-        <button class="stats-btn">Red Cards</button>
+        <button class="stats-btn active" data-type="goals">Goals</button>
+        <button class="stats-btn" data-type="assists"> Assists</button>
+        <button class="stats-btn" data-type="yellowcards"> Yellow Cards</button>
+        <button class="stats-btn" data-type="redcards"> Red Cards</button>
       </div>
 
 
@@ -210,7 +210,8 @@
             <tr>
               <th>Player</th>
               <th>Team</th>
-              <th>Goals</th>
+              <!-- <th>Goals</th> -->
+              <th id="statsValueTitle">Goals</th>
             </tr>
           </thead>
 
@@ -239,7 +240,8 @@
               <td>12</td>
             </tr>
           </tbody> -->
-          <tbody id="statsGoalsBody"></tbody>
+          <!-- <tbody id="statsGoalsBody"></tbody> -->
+          <tbody id="statsBody"></tbody>
         </table>
 
       </div>
