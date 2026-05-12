@@ -224,16 +224,65 @@ async function loadStandings() {
 
 
 // ============================
+// STATS MENU
+// ============================
+
+const statsButtons =
+  document.querySelectorAll('.stats-btn');
+
+
+// mapping firebase collection
+const statsConfig = {
+
+  goals: {
+    collection: "statsGoals",
+    field: "goals",
+    title: "Goals"
+  },
+
+  assists: {
+    collection: "statsAssists",
+    field: "assists",
+    title: "Assists"
+  },
+
+  yellowcards: {
+    collection: "statsYellowCards",
+    field: "yellowCards",
+    title: "Yellow Cards"
+  },
+
+  redcards: {
+    collection: "statsRedCards",
+    field: "redCards",
+    title: "Red Cards"
+  }
+
+};
+
+
+// ============================
 // LOAD STATS
 // ============================
 
-async function loadStatsGoals() {
+async function loadStats(type) {
 
   const body =
-    document.getElementById('statsGoalsBody');
+    document.getElementById('statsBody');
+
+  const title =
+    document.getElementById('statsValueTitle');
+
+  const config =
+    statsConfig[type];
+
+  title.textContent =
+    config.title;
 
   const querySnapshot =
-    await getDocs(collection(db, "statsGoals"));
+    await getDocs(
+      collection(db, config.collection)
+    );
 
   body.innerHTML = "";
 
@@ -243,9 +292,13 @@ async function loadStatsGoals() {
 
     const row = `
       <tr>
+
         <td>${stat.player}</td>
+
         <td>${stat.team}</td>
-        <td>${stat.goals}</td>
+
+        <td>${stat[config.field]}</td>
+
       </tr>
     `;
 
@@ -254,6 +307,30 @@ async function loadStatsGoals() {
   });
 
 }
+
+
+// ============================
+// STATS BUTTON CLICK
+// ============================
+
+statsButtons.forEach(btn => {
+
+  btn.addEventListener('click', () => {
+
+    statsButtons.forEach(b =>
+      b.classList.remove('active')
+    );
+
+    btn.classList.add('active');
+
+    const type =
+      btn.dataset.type;
+
+    loadStats(type);
+
+  });
+
+});
 
 
 // ============================
