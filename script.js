@@ -108,11 +108,9 @@ tabs.forEach(tab => {
 
 async function loadMatches() {
 
-  const container =
-    document.getElementById('matchesContainer');
+  const container = document.getElementById('matchesContainer');
 
-  const querySnapshot =
-    await getDocs(collection(db, "matches"));
+  const querySnapshot = await getDocs(collection(db, "matches"));
 
   container.innerHTML = "";
 
@@ -120,8 +118,8 @@ async function loadMatches() {
 
     const match = doc.data();
 
-    const winnerHome =
-      match.homeScore > match.awayScore;
+    const winnerHome = match.homeScore > match.awayScore ? 'winner' : '';
+    const winnerAway = match.awayScore > match.homeScore ? 'winner' : '';
 
     const card = `
       <div class="match-card">
@@ -132,12 +130,12 @@ async function loadMatches() {
 
         <div class="teams">
 
-          <div class="team-row ${winnerHome ? 'winner' : ''}">
+          <div class="team-row ${winnerHome}">
             <span>${match.homeTeam}</span>
             <strong>${match.homeScore}</strong>
           </div>
 
-          <div class="team-row ${!winnerHome ? 'winner' : ''}">
+          <div class="team-row ${winnerAway}">
             <span>${match.awayTeam}</span>
             <strong>${match.awayScore}</strong>
           </div>
@@ -165,11 +163,9 @@ async function loadMatches() {
 
 async function loadStandings() {
 
-  const body =
-    document.getElementById('standingsBody');
+  const body = document.getElementById('standingsBody');
 
-  const querySnapshot =
-    await getDocs(collection(db, "standings"));
+  const querySnapshot = await getDocs(collection(db, "standings"));
 
   body.innerHTML = "";
 
@@ -227,8 +223,7 @@ async function loadStandings() {
 // STATS MENU
 // ============================
 
-const statsButtons =
-  document.querySelectorAll('.stats-btn');
+const statsButtons = document.querySelectorAll('.stats-btn');
 
 
 // mapping firebase collection
@@ -267,17 +262,13 @@ const statsConfig = {
 
 async function loadStats(type) {
 
-  const body =
-    document.getElementById('statsBody');
+  const body = document.getElementById('statsBody');
 
-  const title =
-    document.getElementById('statsValueTitle');
+  const title = document.getElementById('statsValueTitle');
 
-  const config =
-    statsConfig[type];
+  const config = statsConfig[type];
 
-  title.textContent =
-    config.title;
+  title.textContent = config.title;
 
   const querySnapshot =
     await getDocs(
@@ -323,8 +314,7 @@ statsButtons.forEach(btn => {
 
     btn.classList.add('active');
 
-    const type =
-      btn.dataset.type;
+    const type = btn.dataset.type;
 
     loadStats(type);
 
@@ -339,11 +329,9 @@ statsButtons.forEach(btn => {
 
 async function loadPlayoff() {
 
-  const wrapper =
-    document.getElementById('playoffWrapper');
+  const wrapper = document.getElementById('playoffWrapper');
 
-  const querySnapshot =
-    await getDocs(collection(db, "playOff"));
+  const querySnapshot = await getDocs(collection(db, "playOff"));
 
   wrapper.innerHTML = "";
 
