@@ -115,6 +115,19 @@ h2 {
   font-weight: bold;
 }
 
+.team-info{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.team-logo{
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  border-radius:50%;
+}
+
 .match-info {
   display: flex;
   justify-content: space-between;
