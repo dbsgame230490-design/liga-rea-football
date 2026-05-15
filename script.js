@@ -124,14 +124,19 @@ async function loadMatches() {
         <div class="teams">
 
           <div class="team-row ${winnerHome}">
-            <img src=${homeLogo} class="team-logo" alt=${match.homeTeam}/>
-            <span>${match.homeTeam}</span>
-            <strong>${match.homeScore}</strong>
+            <span class="team-info">
+              <img src=${homeLogo} class="team-logo" alt=${match.homeTeam}/>
+              <span>${match.homeTeam}</span>
+              <strong>${match.homeScore}</strong>
+            </span>
           </div>
 
           <div class="team-row ${winnerAway}">
-            <span>${match.awayTeam}</span>
-            <strong>${match.awayScore}</strong>
+            <span class="team-info">
+              <img src=${awayLogo} class="team-logo" alt=${match.awayTeam}/>
+              <span>${match.awayTeam}</span>
+              <strong>${match.awayScore}</strong>
+            </span>
           </div>
 
         </div>
