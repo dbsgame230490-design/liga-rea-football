@@ -1,46 +1,3 @@
-// const tabs = document.querySelectorAll('.tab');
-// const contents = document.querySelectorAll('.content');
-
-
-// // MAIN TABS
-
-// tabs.forEach(tab => {
-
-//   tab.addEventListener('click', () => {
-
-//     tabs.forEach(t => t.classList.remove('active'));
-//     contents.forEach(c => c.classList.remove('active'));
-
-//     tab.classList.add('active');
-
-//     const target = tab.dataset.tab;
-
-//     document
-//       .getElementById(target)
-//       .classList.add('active');
-
-//   });
-
-// });
-
-
-// // STATS SUB TABS
-
-// const statsButtons = document.querySelectorAll('.stats-btn');
-
-// statsButtons.forEach(btn => {
-
-//   btn.addEventListener('click', () => {
-
-//     statsButtons.forEach(b => b.classList.remove('active'));
-
-//     btn.classList.add('active');
-
-//     // nanti bisa dihubungkan ke API statistik
-
-//   });
-
-// });
 // ============================
 // FIREBASE IMPORT
 // ============================
@@ -101,6 +58,29 @@ tabs.forEach(tab => {
 
 });
 
+// ============================
+// CLUBS MASTER
+// ============================
+
+let clubsData = {};
+
+async function loadClubs() {
+
+  const querySnapshot = await getDocs(collection(db, "clubs"));
+
+  querySnapshot.forEach((doc) => {
+
+    const club = doc.data();
+
+    clubsData[club.name] = {
+      logo: club.logo,
+      shortName: club.shortName,
+      primaryColor: club.primaryColor
+    };
+
+  });
+
+}
 
 // ============================
 // LOAD MATCHES
@@ -120,7 +100,8 @@ async function loadMatches() {
 
     const winnerHome = match.homeScore > match.awayScore ? 'winner' : '';
     const winnerAway = match.awayScore > match.homeScore ? 'winner' : '';
-
+    const homeLogo = clubsData[match.homeTeam]?.logo || '';
+    const awayLogo = clubsData[match.awayTeam]?.logo || '';
     
     const formattedDate =
       match.matchesDate
@@ -143,6 +124,7 @@ async function loadMatches() {
         <div class="teams">
 
           <div class="team-row ${winnerHome}">
+            <img src=${homeLogo} class="team-logo" alt=${match.homeTeam}/>
             <span>${match.homeTeam}</span>
             <strong>${match.homeScore}</strong>
           </div>
@@ -382,7 +364,15 @@ async function loadPlayoff() {
 // INIT LOAD
 // ============================
 
-loadMatches();
-loadStandings();
-loadStats();
-loadPlayoff();
+async function init() {
+
+  await loadClubs();
+
+  loadMatches();
+  loadStandings();
+  loadStats("goals");
+  loadPlayoff();
+
+}
+
+init();
