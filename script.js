@@ -193,7 +193,6 @@ async function loadStandings() {
       <tr>
 
         <td>${team.position}</td>
-        // <td>${team.team}</td>
         <td>
           <div class="team-info">
             <img src="${logo}" class="team-logo" alt="${team.team}"/>        
