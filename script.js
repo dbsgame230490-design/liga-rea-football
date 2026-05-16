@@ -155,12 +155,40 @@ async function loadMatches() {
 
 }
 
+// ============================
+// STANDINGS MENU
+// ============================
+
+const standingsButtons = document.querySelectorAll('.standings-btn');
+
+// ============================
+// STANDINGS BUTTON CLICK
+// ============================
+
+standingsButtons.forEach(btn => {
+
+  btn.addEventListener('click', () => {
+
+    standingsButtons.forEach(b =>
+      b.classList.remove('active')
+    );
+
+    btn.classList.add('active');
+
+    const group =
+      btn.dataset.group;
+
+    loadStandings(group);
+
+  });
+
+});
 
 // ============================
 // LOAD STANDINGS
 // ============================
 
-async function loadStandings() {
+async function loadStandings(group) {
 
   const body = document.getElementById('standingsBody');
 
@@ -171,6 +199,8 @@ async function loadStandings() {
   querySnapshot.forEach((doc) => {
 
     const team = doc.data();
+    // FILTER GROUP
+    if (team.group !== group) return;
     const logo = clubsData[team.team]?.logo || '';
 
     const formHTML =
@@ -394,7 +424,7 @@ async function init() {
   await loadClubs();
 
   loadMatches();
-  loadStandings();
+  loadStandings("South");
   loadStats("goals");
   loadPlayoff();
 
