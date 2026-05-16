@@ -118,7 +118,7 @@ async function loadMatches() {
       <div class="match-card">
 
         <div class="week">
-          ${match.week}
+          ${match.stadium}
         </div>
 
         <div class="teams">
@@ -171,6 +171,7 @@ async function loadStandings() {
   querySnapshot.forEach((doc) => {
 
     const team = doc.data();
+    const logo = clubsData[team.team]?.logo || '';
 
     const formHTML =
       team.form.map(result => {
@@ -192,7 +193,13 @@ async function loadStandings() {
       <tr>
 
         <td>${team.position}</td>
-        <td>${team.team}</td>
+        // <td>${team.team}</td>
+        <td>
+          <div class="team-info">
+            <img src="${logo}" class="team-logo" alt="${team.team}"/>        
+            <span>${team.team}</span>        
+          </div>
+        </td>
         <td>${team.pts}</td>
         <td>${team.mp}</td>
         <td>${team.w}</td>
@@ -279,13 +286,24 @@ async function loadStats(type) {
   querySnapshot.forEach((doc) => {
 
     const stat = doc.data();
+    const logo = clubsData[stat.team]?.logo || '';
 
     const row = `
       <tr>
 
         <td>${stat.player}</td>
 
-        <td>${stat.team}</td>
+        <td>
+          <div class="team-info">
+            <img src="${logo}" class="team-logo" alt="${team.team}"/>        
+            <span>${team.team}</span>        
+          </div>
+        </td><td>
+          <div class="team-info">
+            <img src="${logo}" class="team-logo" alt="${team.team}"/>        
+            <span>${team.team}</span>        
+          </div>
+        </td>
 
         <td>${stat[config.field]}</td>
 
@@ -340,6 +358,8 @@ async function loadPlayoff() {
 
     const homeLoser = item.homeScore < item.awayScore ? 'loser' : '';
     const awayLoser = item.awayScore < item.homeScore ? 'loser' : '';
+    const homeLogo = clubsData[item.homeTeam]?.logo || '';
+    const awayLogo = clubsData[item.awayTeam]?.logo || '';
 
     const card = `
       <div class="round">
@@ -347,11 +367,19 @@ async function loadPlayoff() {
         <h3>${item.round}</h3>
 
         <div class="bracket-card ${homeLoser}">
-          <span>${item.homeTeam}</span>
+          // <span>${item.homeTeam}</span>
+          <span class="team-info">
+             <img src="${homeLogo}" class="team-logo" alt="${item.homeTeam}"/>
+             ${item.homeTeam}
+          </span>
           <strong>${item.homeScore}</strong>
         </div>
         <div class="bracket-card ${awayLoser}">
-          <span>${item.awayTeam}</span>
+          // <span>${item.awayTeam}</span>
+          <span class="team-info">
+            <img src="${awayLogo}" class="team-logo" alt="${item.awayTeam}"/>
+            ${item.awayTeam}
+          </span>
           <strong>${item.awayScore}</strong>
         </div>
 
