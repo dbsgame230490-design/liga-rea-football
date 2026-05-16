@@ -295,13 +295,8 @@ async function loadStats(type) {
 
         <td>
           <div class="team-info">
-            <img src="${logo}" class="team-logo" alt="${team.team}"/>        
-            <span>${team.team}</span>        
-          </div>
-        </td><td>
-          <div class="team-info">
-            <img src="${logo}" class="team-logo" alt="${team.team}"/>        
-            <span>${team.team}</span>        
+            <img src="${logo}" class="team-logo" alt="${stat.team}"/>        
+            <span>${stat.team}</span>        
           </div>
         </td>
 
@@ -367,7 +362,6 @@ async function loadPlayoff() {
         <h3>${item.round}</h3>
 
         <div class="bracket-card ${homeLoser}">
-          // <span>${item.homeTeam}</span>
           <span class="team-info">
              <img src="${homeLogo}" class="team-logo" alt="${item.homeTeam}"/>
              ${item.homeTeam}
@@ -375,7 +369,6 @@ async function loadPlayoff() {
           <strong>${item.homeScore}</strong>
         </div>
         <div class="bracket-card ${awayLoser}">
-          // <span>${item.awayTeam}</span>
           <span class="team-info">
             <img src="${awayLogo}" class="team-logo" alt="${item.awayTeam}"/>
             ${item.awayTeam}
