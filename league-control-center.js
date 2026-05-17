@@ -73,6 +73,7 @@ const collectionsConfig = {
     "name",
     "shortName",
     "primaryColor",
+    "groupName",
     "logo"
   ],
 
