@@ -1,0 +1,127 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>League Control Center</title>
+
+  <link rel="stylesheet" href="admin-style.css"/>
+
+</head>
+
+<body>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-header">
+
+      <img
+        src="img/league/liga-rea-2026.png"
+        class="admin-logo"
+      />
+
+      <h2>League Control</h2>
+
+    </div>
+
+    <button class="menu-btn active" data-page="clubs">
+      Clubs
+    </button>
+
+    <button class="menu-btn" data-page="groups">
+      Groups
+    </button>
+
+    <button class="menu-btn" data-page="matches">
+      Matches
+    </button>
+
+    <button class="menu-btn" data-page="playoff">
+      PlayOff
+    </button>
+
+    <button class="menu-btn" data-page="standings">
+      Standings
+    </button>
+
+    <button class="menu-btn" data-page="stats">
+      Stats
+    </button>
+
+  </aside>
+
+
+  <main class="admin-main">
+
+    <div class="topbar">
+
+      <h1 id="pageTitle">
+        Clubs
+      </h1>
+
+    </div>
+
+
+    <div class="action-bar">
+
+      <button id="addButton">
+        + Add Data
+      </button>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead id="tableHead"></thead>
+
+        <tbody id="tableBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </main>
+
+
+  <!-- MODAL -->
+  <div class="modal hidden" id="modal">
+
+    <div class="modal-content">
+
+      <h2 id="modalTitle">
+        Add Data
+      </h2>
+
+      <form id="crudForm"></form>
+
+      <div class="modal-actions">
+
+        <button id="saveBtn">
+          Save
+        </button>
+
+        <button id="cancelBtn" type="button">
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script
+    type="module"
+    src="league-control-center.js">
+  </script>
+
+</body>
+</html>
+```
