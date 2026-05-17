@@ -63,60 +63,161 @@ const crudForm =
   document.getElementById("crudForm");
 
 // ============================
-// MASTER DATA
+// FIELD RELATIONS
 // ============================
 
-let groupsMaster = [];
+const relationFields = {
 
-let stadiumsMaster = [];
+  groupName: {
+    collection: "groups",
+    value: "groupName"
+  },
+
+  stadium: {
+    collection: "stadiums",
+    value: "stadiumName"
+  },
+
+  stadiumName: {
+    collection: "stadiums",
+    value: "stadiumName"
+  },
+
+  homeTeam: {
+    collection: "clubs",
+    value: "name"
+  },
+
+  awayTeam: {
+    collection: "clubs",
+    value: "name"
+  },
+
+  team: {
+    collection: "clubs",
+    value: "name"
+  }
+
+};
 
 // ============================
-// LOAD GROUPS
+// CREATE FIELD
 // ============================
 
-async function loadGroupsMaster() {
+async function createField(field, value = "") {
 
-  const snapshot =
-    await getDocs(
-      collection(db, "groups")
-    );
+  // ============================
+  // RELATION DROPDOWN
+  // ============================
 
-  groupsMaster = [];
+  if (relationFields[field]) {
 
-  snapshot.forEach(doc => {
+    const relation =
+      relationFields[field];
 
-    const data = doc.data();
+    const snapshot =
+      await getDocs(
+        collection(db, relation.collection)
+      );
 
-    groupsMaster.push(
-      data.groupName
-    );
+    let options = "";
 
-  });
+    snapshot.forEach(doc => {
 
-}
+      const item = doc.data();
 
-// ============================
-// LOAD STADIUMS
-// ============================
+      const selected =
+        item[relation.value] === value
+          ? "selected"
+          : "";
 
-async function loadStadiumsMaster() {
+      options += `
+        <option
+          value="${item[relation.value]}"
+          ${selected}
+        >
+          ${item[relation.value]}
+        </option>
+      `;
 
-  const snapshot =
-    await getDocs(
-      collection(db, "stadiums")
-    );
+    });
 
-  stadiumsMaster = [];
+    return `
+      <select name="${field}">
+        <option value="">
+          Select ${field}
+        </option>
 
-  snapshot.forEach(doc => {
+        ${options}
 
-    const data = doc.data();
+      </select>
+    `;
+  }
 
-    stadiumsMaster.push(
-      data.stadiumName
-    );
 
-  });
+  // ============================
+  // NUMBER
+  // ============================
+
+  const numberFields = [
+    "homeScore",
+    "awayScore",
+    "pts",
+    "mp",
+    "w",
+    "d",
+    "l",
+    "gf",
+    "ga",
+    "gd",
+    "goals",
+    "assists",
+    "yellowCards",
+    "redCards",
+    "position"
+  ];
+
+  if (numberFields.includes(field)) {
+
+    return `
+      <input
+        type="number"
+        name="${field}"
+        value="${value}"
+        placeholder="${field}"
+      />
+    `;
+  }
+
+
+  // ============================
+  // DATETIME
+  // ============================
+
+  if (field === "matchesDate") {
+
+    return `
+      <input
+        type="datetime-local"
+        name="${field}"
+        value="${value}"
+      />
+    `;
+  }
+
+
+  // ============================
+  // DEFAULT TEXT
+  // ============================
+
+  return `
+    <input
+      type="text"
+      name="${field}"
+      value="${value}"
+      placeholder="${field}"
+    />
+  `;
 
 }
 
@@ -291,7 +392,7 @@ document
 // OPEN MODAL
 // ============================
 
-function openModal(data = null, docId = null) {
+async function openModal(data = null, docId = null) {
 
   modal.classList.remove("hidden");
 
@@ -300,100 +401,17 @@ function openModal(data = null, docId = null) {
   const fields =
     collectionsConfig[currentCollection];
 
-  fields.forEach(field => {
-  
-    // =========================
-    // GROUP DROPDOWN
-    // =========================
-  
-    if (
-      currentCollection === "clubs" &&
-      field === "groupName"
-    ) {
-  
-      let options = "";
-  
-      groupsMaster.forEach(group => {
-  
-        options += `
-          <option
-            value="${group}"
-            ${data?.[field] === group ? 'selected' : ''}
-          >
-            ${group}
-          </option>
-        `;
-  
-      });
-  
-      crudForm.innerHTML += `
-  
-        <select name="${field}">
-  
-          ${options}
-  
-        </select>
-  
-      `;
-  
-    }
-  
-    // =========================
-    // STADIUM DROPDOWN
-    // =========================
-  
-    else if (
-      currentCollection === "matches" &&
-      field === "stadium"
-    ) {
-  
-      let options = "";
-  
-      stadiumsMaster.forEach(stadium => {
-  
-        options += `
-          <option
-            value="${stadium}"
-            ${data?.[field] === stadium ? 'selected' : ''}
-          >
-            ${stadium}
-          </option>
-        `;
-  
-      });
-  
-      crudForm.innerHTML += `
-  
-        <select name="${field}">
-  
-          ${options}
-  
-        </select>
-  
-      `;
-  
-    }
-  
-    // =========================
-    // DEFAULT INPUT
-    // =========================
-  
-    else {
-  
-      crudForm.innerHTML += `
-  
-        <input
-          type="text"
-          name="${field}"
-          placeholder="${field}"
-          value="${data?.[field] || ''}"
-        />
-  
-      `;
-  
-    }
-  
-  });
+  for (const field of fields) {
+
+  const fieldHTML =
+    await createField(
+      field,
+      data?.[field] || ""
+    );
+
+  crudForm.innerHTML += fieldHTML;
+
+}
 
   // simpan id edit
   crudForm.dataset.docId =
@@ -511,17 +529,7 @@ async function deleteData(id) {
 // INIT
 // ============================
 
-async function init() {
-
-  await loadGroupsMaster();
-
-  await loadStadiumsMaster();
-
-  loadTable("clubs");
-
-}
-
-init();
+loadTable("clubs");
 
 
 // ============================
