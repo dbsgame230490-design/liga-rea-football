@@ -252,7 +252,7 @@ const collectionsConfig = {
     "week"
   ],
 
-  playoff: [
+  playOff: [
     "homeTeam",
     "awayTeam",
     "homeScore",
