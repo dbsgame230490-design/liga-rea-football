@@ -151,3 +151,9 @@ td{
   border-radius:10px;
   cursor:pointer;
 }
+
+#crudForm select{
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:10px;
+}
