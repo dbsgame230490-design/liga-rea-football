@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>REA League Admin Panel</title>
+
+  <link rel="stylesheet" href="css/admin.css"/>
+</head>
+
+<body>
+
+  <header class="admin-header">
+
+    <div class="header-left">
+
+      <img
+        src="img/league/liga-rea-2026.png"
+        class="admin-logo"
+      />
+
+      <div>
+        <h1>REA League Admin</h1>
+        <p>Dashboard Management Panel</p>
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main class="admin-container">
+
+    <!-- CLUBS -->
+    <section class="admin-card">
+
+      <h2>Add Club</h2>
+
+      <form id="clubForm">
+
+        <input
+          type="text"
+          id="clubName"
+          placeholder="Club Name"
+          required
+        />
+
+        <input
+          type="text"
+          id="clubShortName"
+          placeholder="Short Name"
+        />
+
+        <input
+          type="color"
+          id="clubColor"
+        />
+
+        <input
+          type="text"
+          id="clubLogo"
+          placeholder="img/clubs/central-fc.png"
+        />
+
+        <button type="submit">
+          Save Club
+        </button>
+
+      </form>
+
+    </section>
+
+
+    <!-- MATCH -->
+    <section class="admin-card">
+
+      <h2>Add Match</h2>
+
+      <form id="matchForm">
+
+        <select id="homeTeam"></select>
+
+        <select id="awayTeam"></select>
+
+        <input
+          type="number"
+          id="homeScore"
+          placeholder="Home Score"
+        />
+
+        <input
+          type="number"
+          id="awayScore"
+          placeholder="Away Score"
+        />
+
+        <input
+          type="datetime-local"
+          id="matchesDate"
+        />
+
+        <input
+          type="text"
+          id="stadium"
+          placeholder="Stadium"
+        />
+
+        <input
+          type="text"
+          id="week"
+          placeholder="Week 1"
+        />
+
+        <select id="matchStatus">
+          <option value="FT">FT</option>
+          <option value="LIVE">LIVE</option>
+          <option value="NS">NS</option>
+        </select>
+
+        <button type="submit">
+          Save Match
+        </button>
+
+      </form>
+
+    </section>
+
+
+    <!-- STATS -->
+    <section class="admin-card">
+
+      <h2>Add Player Stats</h2>
+
+      <form id="statsForm">
+
+        <select id="statsType">
+
+          <option value="statsGoals">
+            Goals
+          </option>
+
+          <option value="statsAssists">
+            Assists
+          </option>
+
+          <option value="statsYellowCards">
+            Yellow Cards
+          </option>
+
+          <option value="statsRedCards">
+            Red Cards
+          </option>
+
+        </select>
+
+        <input
+          type="text"
+          id="playerName"
+          placeholder="Player Name"
+        />
+
+        <select id="statsTeam"></select>
+
+        <input
+          type="number"
+          id="statsValue"
+          placeholder="Value"
+        />
+
+        <button type="submit">
+          Save Stats
+        </button>
+
+      </form>
+
+    </section>
+
+  </main>
+
+  <script type="module" src="js/admin.js"></script>
+
+</body>
+</html>
