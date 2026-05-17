@@ -62,6 +62,63 @@ const modal =
 const crudForm =
   document.getElementById("crudForm");
 
+// ============================
+// MASTER DATA
+// ============================
+
+let groupsMaster = [];
+
+let stadiumsMaster = [];
+
+// ============================
+// LOAD GROUPS
+// ============================
+
+async function loadGroupsMaster() {
+
+  const snapshot =
+    await getDocs(
+      collection(db, "groups")
+    );
+
+  groupsMaster = [];
+
+  snapshot.forEach(doc => {
+
+    const data = doc.data();
+
+    groupsMaster.push(
+      data.groupName
+    );
+
+  });
+
+}
+
+// ============================
+// LOAD STADIUMS
+// ============================
+
+async function loadStadiumsMaster() {
+
+  const snapshot =
+    await getDocs(
+      collection(db, "stadiums")
+    );
+
+  stadiumsMaster = [];
+
+  snapshot.forEach(doc => {
+
+    const data = doc.data();
+
+    stadiumsMaster.push(
+      data.stadiumName
+    );
+
+  });
+
+}
 
 // ============================
 // COLLECTION CONFIG
@@ -244,18 +301,98 @@ function openModal(data = null, docId = null) {
     collectionsConfig[currentCollection];
 
   fields.forEach(field => {
-
-    crudForm.innerHTML += `
-
-      <input
-        type="text"
-        name="${field}"
-        placeholder="${field}"
-        value="${data?.[field] || ''}"
-      />
-
-    `;
-
+  
+    // =========================
+    // GROUP DROPDOWN
+    // =========================
+  
+    if (
+      currentCollection === "clubs" &&
+      field === "groupName"
+    ) {
+  
+      let options = "";
+  
+      groupsMaster.forEach(group => {
+  
+        options += `
+          <option
+            value="${group}"
+            ${data?.[field] === group ? 'selected' : ''}
+          >
+            ${group}
+          </option>
+        `;
+  
+      });
+  
+      crudForm.innerHTML += `
+  
+        <select name="${field}">
+  
+          ${options}
+  
+        </select>
+  
+      `;
+  
+    }
+  
+    // =========================
+    // STADIUM DROPDOWN
+    // =========================
+  
+    else if (
+      currentCollection === "matches" &&
+      field === "stadium"
+    ) {
+  
+      let options = "";
+  
+      stadiumsMaster.forEach(stadium => {
+  
+        options += `
+          <option
+            value="${stadium}"
+            ${data?.[field] === stadium ? 'selected' : ''}
+          >
+            ${stadium}
+          </option>
+        `;
+  
+      });
+  
+      crudForm.innerHTML += `
+  
+        <select name="${field}">
+  
+          ${options}
+  
+        </select>
+  
+      `;
+  
+    }
+  
+    // =========================
+    // DEFAULT INPUT
+    // =========================
+  
+    else {
+  
+      crudForm.innerHTML += `
+  
+        <input
+          type="text"
+          name="${field}"
+          placeholder="${field}"
+          value="${data?.[field] || ''}"
+        />
+  
+      `;
+  
+    }
+  
   });
 
   // simpan id edit
@@ -374,7 +511,17 @@ async function deleteData(id) {
 // INIT
 // ============================
 
-loadTable("clubs");
+async function init() {
+
+  await loadGroupsMaster();
+
+  await loadStadiumsMaster();
+
+  loadTable("clubs");
+
+}
+
+init();
 
 
 // ============================
