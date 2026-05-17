@@ -217,9 +217,168 @@ document
 
   });
 
+// ============================
+// ADD BUTTON
+// ============================
+
+document
+  .getElementById("addButton")
+  .addEventListener("click", () => {
+
+    openModal();
+
+  });
+
+// ============================
+// OPEN MODAL
+// ============================
+
+function openModal(data = null, docId = null) {
+
+  modal.classList.remove("hidden");
+
+  crudForm.innerHTML = "";
+
+  const fields =
+    collectionsConfig[currentCollection];
+
+  fields.forEach(field => {
+
+    crudForm.innerHTML += `
+
+      <input
+        type="text"
+        name="${field}"
+        placeholder="${field}"
+        value="${data?.[field] || ''}"
+      />
+
+    `;
+
+  });
+
+  // simpan id edit
+  crudForm.dataset.docId =
+    docId || "";
+
+}
+
+// ============================
+// CLOSE MODAL
+// ============================
+
+document
+  .getElementById("cancelBtn")
+  .addEventListener("click", () => {
+
+    modal.classList.add("hidden");
+
+  });
+
+// ============================
+// SAVE DATA
+// ============================
+
+document
+  .getElementById("saveBtn")
+  .addEventListener("click", async () => {
+
+    const formData =
+      new FormData(crudForm);
+
+    let data = {};
+
+    formData.forEach((value, key) => {
+
+      data[key] = value;
+
+    });
+
+    const docId =
+      crudForm.dataset.docId;
+
+    // EDIT
+    if (docId) {
+
+      await updateDoc(
+        doc(db, currentCollection, docId),
+        data
+      );
+
+    }
+
+    // ADD
+    else {
+
+      await addDoc(
+        collection(db, currentCollection),
+        data
+      );
+
+    }
+
+    modal.classList.add("hidden");
+
+    loadTable(currentCollection);
+
+  });
+
+// ============================
+// EDIT DATA
+// ============================
+
+async function editData(id) {
+
+  const snapshot =
+    await getDocs(
+      collection(db, currentCollection)
+    );
+
+  snapshot.forEach(item => {
+
+    if (item.id === id) {
+
+      openModal(
+        item.data(),
+        id
+      );
+
+    }
+
+  });
+
+}
+
+// ============================
+// DELETE DATA
+// ============================
+
+async function deleteData(id) {
+
+  const confirmDelete =
+    confirm("Delete this data?");
+
+  if (!confirmDelete) return;
+
+  await deleteDoc(
+    doc(db, currentCollection, id)
+  );
+
+  loadTable(currentCollection);
+
+}
+
 
 // ============================
 // INIT
 // ============================
 
 loadTable("clubs");
+
+
+// ============================
+// GLOBAL WINDOW
+// ============================
+
+window.editData = editData;
+window.deleteData = deleteData;
