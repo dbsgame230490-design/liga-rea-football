@@ -13,7 +13,9 @@ import {
   updateDoc,
   deleteDoc,
   doc,
-  Timestamp
+  Timestamp,
+  query,
+  orderBy
 }
 from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
@@ -304,6 +306,32 @@ function formatTableValue(value) {
 }
 
 
+// ============================
+// COLLECTION ORDER
+// ============================
+
+const collectionOrders = {
+
+  clubs: [
+    orderBy("groupName"),
+    orderBy("name")
+  ],
+
+  groups: [
+    orderBy("group")
+  ],
+
+  matches: [
+    orderBy("status", "desc"),
+    orderBy("matchesDate")
+  ],
+
+  playOff: [
+    orderBy("round")
+  ]
+
+};
+
 
 // ============================
 // LOAD TABLE
@@ -317,10 +345,17 @@ async function loadTable(collectionName){
   pageTitle.textContent =
     collectionName;
 
-  const snapshot =
-    await getDocs(
-      collection(db, collectionName)
-    );
+  let collectionQuery;
+  if (collectionOrders[collectionName]) {
+    collectionQuery = query(
+      collection(db, collectionName),
+      ...collectionOrders[collectionName]
+    ); }
+  else {
+    collectionQuery = collection(db, collectionName);
+  }
+  
+  const snapshot = await getDocs(collectionQuery);
 
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
