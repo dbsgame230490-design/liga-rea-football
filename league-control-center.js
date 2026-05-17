@@ -12,7 +12,8 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
-  doc
+  doc,
+  Timestamp
 }
 from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
@@ -262,6 +263,47 @@ const collectionsConfig = {
 
 };
 
+// ============================
+// FORMAT TABLE VALUE
+// ============================
+
+function formatTableValue(value) {
+
+  // FIREBASE TIMESTAMP
+  if (
+    value &&
+    typeof value === "object" &&
+    typeof value.toDate === "function"
+  ) {
+
+    return value
+      .toDate()
+      .toLocaleString("en-US", {
+
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+
+        hour: "numeric",
+        minute: "2-digit"
+
+      });
+
+  }
+
+  // ARRAY
+  if (Array.isArray(value)) {
+
+    return value.join(", ");
+
+  }
+
+  // DEFAULT
+  return value ?? "";
+
+}
+
+
 
 // ============================
 // LOAD TABLE
@@ -315,7 +357,7 @@ async function loadTable(collectionName){
     fields.forEach(field => {
 
       row += `
-        <td>${data[field] || ''}</td>
+        <td>${formatTableValue(data[field])}</td>
       `;
 
     });
@@ -447,7 +489,10 @@ document
 
     formData.forEach((value, key) => {
 
-      data[key] = value;
+      // DATETIME → FIREBASE TIMESTAMP
+      if (key === "matchesDate")
+        { data[key] = Timestamp.fromDate( new Date(value) ); }
+      else { data[key] = value; }
 
     });
 
