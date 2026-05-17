@@ -247,6 +247,7 @@ const collectionsConfig = {
     "awayScore",
     "stadium",
     "status",
+    "matchesDate",
     "week"
   ],
 
