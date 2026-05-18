@@ -285,6 +285,10 @@ const collectionsConfig = {
     "player",
     "team",
     "yellowCards"
+  ],
+
+  stadiums: [
+    "stadiumName"
   ]
 
 };
