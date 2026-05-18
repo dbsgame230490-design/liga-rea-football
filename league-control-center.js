@@ -267,6 +267,24 @@ const collectionsConfig = {
     "player",
     "team",
     "assists"
+  ],
+
+  statsGoals: [
+    "player",
+    "team",
+    "goals"
+  ],
+
+  statsRedCards: [
+    "player",
+    "team",
+    "redCards"
+  ],
+
+  statsYellowCards: [
+    "player",
+    "team",
+    "yellowCards"
   ]
 
 };
