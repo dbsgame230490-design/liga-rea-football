@@ -235,7 +235,9 @@ const collectionsConfig = {
     "shortName",
     "primaryColor",
     "groupName",
-    "logo"
+    "logo",
+    "coachName",
+    "coachImg"
   ],
 
   groups: [
