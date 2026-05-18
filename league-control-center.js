@@ -261,6 +261,12 @@ const collectionsConfig = {
     "awayScore",
     "round",
     "status"
+  ],
+
+  statsAssists: [
+    "player",
+    "team",
+    "assists"
   ]
 
 };
