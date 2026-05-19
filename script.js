@@ -124,8 +124,7 @@ async function loadMatches() {
         });
 
     // HIGHLIGHT THIS WEEK
-    const thisWeekClass =
-      match.status === "This Week" ? "this-week" : "";
+    const thisWeekClass = ["This Week", "Opening", "Live", "Semi Final"] .includes(match.status) ? "this-week" : "";
 
     const card = `
       <div class="match-card ${thisWeekClass}">
