@@ -7,7 +7,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebas
 import {
   getFirestore,
   collection,
-  getDocs
+  getDocs,
+  query,
+  orderBy
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
 
@@ -90,19 +92,26 @@ async function loadMatches() {
 
   const container = document.getElementById('matchesContainer');
 
-  const querySnapshot = await getDocs(collection(db, "matches"));
+  // ORDER BY
+  const q = query(
+    collection(db, "matches"),
+    orderBy("status", "desc"),
+    orderBy("matchesDate", "asc")
+  );
+
+  const querySnapshot = await getDocs(q);
 
   container.innerHTML = "";
 
   querySnapshot.forEach((doc) => {
 
     const match = doc.data();
-
     const winnerHome = match.homeScore > match.awayScore ? 'winner' : '';
     const winnerAway = match.awayScore > match.homeScore ? 'winner' : '';
     const homeLogo = clubsData[match.homeTeam]?.logo || '';
     const awayLogo = clubsData[match.awayTeam]?.logo || '';
-    
+
+    // FORMAT DATE
     const formattedDate =
       match.matchesDate
         .toDate()
@@ -114,8 +123,12 @@ async function loadMatches() {
           minute: '2-digit'
         });
 
+    // HIGHLIGHT THIS WEEK
+    const thisWeekClass =
+      match.status === "This Week" ? "this-week" : "";
+
     const card = `
-      <div class="match-card">
+      <div class="match-card ${thisWeekClass}">
 
         <div class="week">
           ${match.stadium}
@@ -125,16 +138,28 @@ async function loadMatches() {
 
           <div class="team-row ${winnerHome}">
             <span class="team-info">
-              <img src=${homeLogo} class="team-logo" alt=${match.homeTeam}/>
+              <img
+                src="${homeLogo}"
+                class="team-logo"
+                alt="${match.homeTeam}"
+              />
+
               <span>${match.homeTeam}</span>
+
               <strong>${match.homeScore}</strong>
             </span>
           </div>
 
           <div class="team-row ${winnerAway}">
             <span class="team-info">
-              <img src=${awayLogo} class="team-logo" alt=${match.awayTeam}/>
+              <img
+                src="${awayLogo}"
+                class="team-logo"
+                alt="${match.awayTeam}"
+              />
+
               <span>${match.awayTeam}</span>
+
               <strong>${match.awayScore}</strong>
             </span>
           </div>
