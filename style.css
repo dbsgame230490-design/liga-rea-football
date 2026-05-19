@@ -160,6 +160,26 @@ h2 {
   color: #777;
 }
 
+/* =========================
+   THIS WEEK MATCH
+========================= */
+
+.match-card.this-week {
+  border: 2px solid #ffb703;
+  background: rgba(255, 183, 3, 0.08);
+  box-shadow: 0 0 15px rgba(255, 183, 3, 0.25);
+}
+
+/* optional badge */
+
+.match-card.this-week .match-info span {
+  background: #ffb703;
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
 .table-card,
 .stats-card {
   overflow-x: auto;
