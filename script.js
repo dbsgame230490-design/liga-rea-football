@@ -275,7 +275,7 @@ async function loadStandings(group) {
         <td>
           <div class="team-info">
             <img src="${coachImg}" class="team-logo" alt="${team.team}"/>        
-            <span>${team.coach}</span>        
+            <span>${team.coachName}</span>        
           </div>
         </td>
       </tr>
