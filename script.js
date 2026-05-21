@@ -216,7 +216,9 @@ async function loadStandings(group) {
 
   const body = document.getElementById('standingsBody');
 
-  const querySnapshot = await getDocs(collection(db, "standings"));
+  const q = query( collection(db, "standings"), orderBy("position", "asc") );
+  
+  const querySnapshot = await getDocs(q);
 
   body.innerHTML = "";
 
