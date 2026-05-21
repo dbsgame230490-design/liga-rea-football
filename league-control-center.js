@@ -15,7 +15,8 @@ import {
   doc,
   Timestamp,
   query,
-  orderBy
+  orderBy,
+  setDoc
 }
 from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
@@ -586,6 +587,13 @@ document
 
     modal.classList.add("hidden");
 
+    // AUTO GENERATE STANDINGS
+    if (currentCollection === "matches") {
+    
+      await generateStandings();
+    
+    }
+    
     loadTable(currentCollection);
 
   });
@@ -632,6 +640,240 @@ async function deleteData(id) {
   );
 
   loadTable(currentCollection);
+
+}
+
+// ============================
+// GENERATE STANDINGS
+// ============================
+
+async function generateStandings() {
+
+  // ============================
+  // GET CLUBS
+  // ============================
+
+  const clubsSnapshot =
+    await getDocs(collection(db, "clubs"));
+
+  // ============================
+  // GET MATCHES
+  // ============================
+
+  const matchesSnapshot =
+    await getDocs(collection(db, "matches"));
+
+  // ============================
+  // STANDINGS OBJECT
+  // ============================
+
+  let standings = {};
+
+  // ============================
+  // INIT CLUBS
+  // ============================
+
+  clubsSnapshot.forEach(doc => {
+
+    const club = doc.data();
+
+    standings[club.name] = {
+
+      group: club.groupName,
+      team: club.name,
+
+      pts: 0,
+      mp: 0,
+
+      w: 0,
+      d: 0,
+      l: 0,
+
+      gf: 0,
+      ga: 0,
+      gd: 0,
+
+      form: []
+
+    };
+
+  });
+
+  // ============================
+  // PROCESS MATCHES
+  // ============================
+
+  matchesSnapshot.forEach(doc => {
+
+    const match = doc.data();
+
+    // ONLY FT
+    if (
+      match.status !== "FT" &&
+      match.status !== "Full Time"
+    ) return;
+
+    const home =
+      standings[match.homeTeam];
+
+    const away =
+      standings[match.awayTeam];
+
+    if (!home || !away) return;
+
+    const homeScore =
+      Number(match.homeScore);
+
+    const awayScore =
+      Number(match.awayScore);
+
+    // PLAYED
+    home.mp++;
+    away.mp++;
+
+    // GOALS
+    home.gf += homeScore;
+    home.ga += awayScore;
+
+    away.gf += awayScore;
+    away.ga += homeScore;
+
+    // WIN DRAW LOSE
+    if (homeScore > awayScore) {
+
+      home.w++;
+      away.l++;
+
+      home.pts += 3;
+
+      home.form.push("W");
+      away.form.push("L");
+
+    }
+
+    else if (awayScore > homeScore) {
+
+      away.w++;
+      home.l++;
+
+      away.pts += 3;
+
+      away.form.push("W");
+      home.form.push("L");
+
+    }
+
+    else {
+
+      home.d++;
+      away.d++;
+
+      home.pts += 1;
+      away.pts += 1;
+
+      home.form.push("D");
+      away.form.push("D");
+
+    }
+
+  });
+
+  // ============================
+  // GOAL DIFFERENCE
+  // ============================
+
+  Object.values(standings)
+    .forEach(team => {
+
+      team.gd =
+        team.gf - team.ga;
+
+      // LAST 5 ONLY
+      team.form =
+        team.form.slice(-5).reverse();
+
+    });
+
+  // ============================
+  // GROUPING
+  // ============================
+
+  const grouped = {};
+
+  Object.values(standings)
+    .forEach(team => {
+
+      if (!grouped[team.group]) {
+        grouped[team.group] = [];
+      }
+
+      grouped[team.group]
+        .push(team);
+
+    });
+
+  // ============================
+  // SORT + POSITION
+  // ============================
+
+  for (const group in grouped) {
+
+    grouped[group].sort((a, b) => {
+
+      // PTS
+      if (b.pts !== a.pts)
+        return b.pts - a.pts;
+
+      // GD
+      if (b.gd !== a.gd)
+        return b.gd - a.gd;
+
+      // GF
+      return b.gf - a.gf;
+
+    });
+
+    grouped[group]
+      .forEach((team, index) => {
+
+        team.position =
+          index + 1;
+
+      });
+
+  }
+
+  // ============================
+  // CLEAR + SAVE
+  // ============================
+
+  const standingsSnapshot =
+    await getDocs(collection(db, "standings"));
+
+  // DELETE OLD
+  for (const item of standingsSnapshot.docs) {
+
+    await deleteDoc(
+      doc(db, "standings", item.id)
+    );
+
+  }
+
+  // SAVE NEW
+  for (const group in grouped) {
+
+    for (const team of grouped[group]) {
+
+      await addDoc(
+        collection(db, "standings"),
+        team
+      );
+
+    }
+
+  }
+
+  alert("Standings updated!");
 
 }
 
