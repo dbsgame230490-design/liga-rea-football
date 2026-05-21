@@ -512,11 +512,31 @@ async function openModal(data = null, docId = null) {
 
   for (const field of fields) {
 
-  const fieldHTML =
-    await createField(
-      field,
-      data?.[field] || ""
-    );
+  let value = data?.[field] || "";
+    
+    // FORMAT TIMESTAMP FOR DATETIME-LOCAL
+    if (
+      field === "matchesDate" &&
+      value &&
+      typeof value.toDate === "function"
+    ) {
+    
+      const date =
+        value.toDate();
+    
+      const pad = (n) =>
+        String(n).padStart(2, "0");
+    
+      value =
+        `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    
+    }
+    
+    const fieldHTML =
+      await createField(
+        field,
+        value
+      );
 
   crudForm.innerHTML += fieldHTML;
 
