@@ -79,6 +79,7 @@ async function loadClubs() {
       shortName: club.shortName,
       primaryColor: club.primaryColor,
       coachImg: club.coachImg
+      coachName: club.coachName
     };
 
   });
@@ -230,6 +231,7 @@ async function loadStandings(group) {
     if (team.group !== group) return;
     const logo = clubsData[team.team]?.logo || '';
     const coachImg = clubsData[team.team]?.coachImg || '';
+    const coachName = clubsData[team.team]?.coachName || '';
 
     const formHTML =
       team.form.map(result => {
@@ -275,7 +277,7 @@ async function loadStandings(group) {
         <td>
           <div class="team-info">
             <img src="${coachImg}" class="team-logo" alt="${team.team}"/>        
-            <span>${team.coachName}</span>        
+            <span>${coachName}</span>        
           </div>
         </td>
       </tr>
