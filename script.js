@@ -65,6 +65,7 @@ tabs.forEach(tab => {
 // ============================
 
 let clubsData = {};
+let clubsList = [];
 
 async function loadClubs() {
 
@@ -79,8 +80,60 @@ async function loadClubs() {
       shortName: club.shortName,
       primaryColor: club.primaryColor,
       coachImg: club.coachImg,
-      coachName: club.coachName
+      coachName: club.coachName,
+      groupName: club.groupName
     };
+    
+    clubsList.push(club);
+
+  });
+
+}
+
+// ============================
+// LOAD MATCH FILTERS
+// ============================
+
+async function loadMatchFilters() {
+
+  const groupFilter =
+    document.getElementById("groupFilter");
+
+  const teamFilter =
+    document.getElementById("teamFilter");
+
+  // RESET
+  groupFilter.innerHTML =
+    `<option value="all">All Groups</option>`;
+
+  teamFilter.innerHTML =
+    `<option value="all">All Teams</option>`;
+
+  // UNIQUE GROUPS
+  const groups =
+    [...new Set(
+      clubsList.map(club => club.groupName)
+    )];
+
+  // GROUP OPTIONS
+  groups.forEach(group => {
+
+    groupFilter.innerHTML += `
+      <option value="${group}">
+        ${group}
+      </option>
+    `;
+
+  });
+
+  // TEAM OPTIONS
+  clubsList.forEach(club => {
+
+    teamFilter.innerHTML += `
+      <option value="${club.name}">
+        ${club.name}
+      </option>
+    `;
 
   });
 
@@ -93,6 +146,8 @@ async function loadClubs() {
 async function loadMatches() {
 
   const container = document.getElementById('matchesContainer');
+  const selectedGroup = document.getElementById("groupFilter")?.value || "all";
+  const selectedTeam = document.getElementById("teamFilter")?.value || "all";
 
   // ORDER BY
   const q = query(
@@ -112,6 +167,21 @@ async function loadMatches() {
     const winnerAway = match.awayScore > match.homeScore ? 'winner' : '';
     const homeLogo = clubsData[match.homeTeam]?.logo || '';
     const awayLogo = clubsData[match.awayTeam]?.logo || '';
+    const homeGroup = clubsData[match.homeTeam]?.groupName;
+    const awayGroup = clubsData[match.awayTeam]?.groupName;
+    // FILTER GROUP
+    if (
+      selectedGroup !== "all" &&
+      homeGroup !== selectedGroup &&
+      awayGroup !== selectedGroup
+    ) return;
+    
+    // FILTER TEAM
+    if (
+      selectedTeam !== "all" &&
+      match.homeTeam !== selectedTeam &&
+      match.awayTeam !== selectedTeam
+    ) return;
 
     // FORMAT DATE
     const formattedDate =
@@ -450,6 +520,18 @@ async function loadPlayoff() {
 
 }
 
+// ============================
+// MATCH FILTER EVENT
+// ============================
+
+document
+  .getElementById("groupFilter")
+  .addEventListener("change", loadMatches);
+
+document
+  .getElementById("teamFilter")
+  .addEventListener("change", loadMatches);
+
 
 // ============================
 // INIT LOAD
@@ -458,6 +540,7 @@ async function loadPlayoff() {
 async function init() {
 
   await loadClubs();
+  await loadMatchFilters();
 
   loadMatches();
   loadStandings("South");
