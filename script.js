@@ -78,7 +78,7 @@ async function loadClubs() {
       logo: club.logo,
       shortName: club.shortName,
       primaryColor: club.primaryColor,
-      coachImg: club.coachImg
+      coachImg: club.coachImg,
       coachName: club.coachName
     };
 
