@@ -180,6 +180,22 @@ h2 {
   font-weight: 700;
 }
 
+.matches-filter{
+  display:flex;
+  gap:12px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.matches-filter select{
+  padding:10px 14px;
+  border-radius:10px;
+  border:none;
+  background:#1d1d1d;
+  color:white;
+  font-size:14px;
+}
+
 .table-card,
 .stats-card {
   overflow-x: auto;
