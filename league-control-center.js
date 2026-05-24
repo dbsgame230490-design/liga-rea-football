@@ -731,6 +731,8 @@ async function generateStandings() {
     if (
       match.status !== "FT" &&
       match.status !== "Full Time"
+      match.week !== "FT" &&
+      match.week !== "Full Time"
     ) return;
 
     const home =
