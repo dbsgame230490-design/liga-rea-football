@@ -730,7 +730,7 @@ async function generateStandings() {
     // ONLY FT
     if (
       match.status !== "FT" &&
-      match.status !== "Full Time"
+      match.status !== "Full Time" &&
       match.week !== "FT" &&
       match.week !== "Full Time"
     ) return;
